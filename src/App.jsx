@@ -1,18 +1,31 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CardWithForm from "./components/auth/login"; // adjust the path as needed
-import { Button } from "@/components/ui/button"
+
+import LoginPage from "./app/Auth/login";
+import Home from "./page/Home";
+import Page from "./app/admin/page";
+import Dashbord from "./app/admin/dashboard/dashbord";
+import { StudyCentre } from "./app/admin/study centre/studycentre";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<CardWithForm />} />
-        {/* other routes */}
+        <Route index element={<Home/>} />
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/admin" element={<Page />} >
+          <Route index element={<Dashbord />} />
+          <Route path="studycentre" element={<StudyCentre />} >
+            <Route index element={<Dashbord />} />
+            <Route path="req" element={<Dashbord />} />
+          </Route>
+          <Route path="course" element={<Dashbord />} />
+          <Route path="students" element={<Dashbord />} />
+          <Route path="hallticket" element={<Dashbord />} />
+          <Route path="results" element={<Dashbord />} />
+        </Route>
       </Routes>
-      <div className="flex flex-col items-center justify-center min-h-svh">
-        <Button>Click me</Button>
-      </div>
     </Router>
   )
 }
