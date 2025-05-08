@@ -6,6 +6,8 @@ import Home from "./page/Home";
 import Page from "./app/admin/page";
 import Dashbord from "./app/admin/dashboard/dashbord";
 import { StudyCentre } from "./app/admin/study centre/studycentre";
+import NewStudy from "./app/admin/study centre/NewStudy";
+import StudyCenterView from "./app/admin/study centre/StudyCenterView";
 
 function App() {
   return (
@@ -16,9 +18,10 @@ function App() {
 
         <Route path="/admin" element={<Page />} >
           <Route index element={<Dashbord />} />
-          <Route path="studycentre" element={<StudyCentre />} >
-            <Route index element={<Dashbord />} />
+          <Route path="studycentre" element={<StudyCenterView />} >
+            <Route index element={<StudyCentre />} />
             <Route path="req" element={<Dashbord />} />
+            <Route path="add" element={<NewStudy />} />
           </Route>
           <Route path="course" element={<Dashbord />} />
           <Route path="students" element={<Dashbord />} />

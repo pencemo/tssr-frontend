@@ -51,6 +51,10 @@ const data = {
           url: "studycentre/req",
         },
         {
+          title: "Add Study Centre",
+          url: "studycentre/add",
+        },
+        {
           title: "Quantum",
           url: "#",
         },
@@ -127,7 +131,7 @@ export function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="#">
+              <Link to="/">
                 {/* <div>
                   <img className="w-32" src={logo} alt="" />
                 </div> */}

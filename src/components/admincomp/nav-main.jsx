@@ -40,7 +40,7 @@ export function NavMain({
                 <>
                   <CollapsibleTrigger className=' right-3' asChild>
                     <SidebarMenuAction className="data-[state=open]:rotate-90">
-                      <ChevronRight />
+                      <ChevronRight className="opacity-40" />
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>
                   </CollapsibleTrigger>
