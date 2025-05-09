@@ -15,9 +15,11 @@ import {
 } from "@/components/ui/select"
 import { useAllCourse } from "@/hooks/tanstackHooks/useCourse";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 function CreateStudy() {
   const {mutate}=useCreateSutdyCenter()
+  const navigate= useNavigate()
   const [isError, setError]=useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -49,6 +51,7 @@ function CreateStudy() {
       authEmail: "",
       password: ''
     });
+    navigate('/admin/studycentre')
   }
 
   const handleSubmit = (e) => {
@@ -65,6 +68,7 @@ function CreateStudy() {
           toast("Study centre created", {
             description: 'Study centre created successfully',});
           handleCancel()
+          
         }else{
           toast("Somthing went wrong", {
             description: data.message,});
@@ -230,7 +234,7 @@ function FrDtils({ setFormData, formData, isError}) {
   );
 }
 
-function FormInputs({ name, onChange, id, type, value, error }) {
+export function FormInputs({ name, onChange, id, type, value, error }) {
   return (
     <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
       <div className="sm:col-span-3">
@@ -251,7 +255,7 @@ function FormInputs({ name, onChange, id, type, value, error }) {
   );
 }
 
-function DateInputs({ name, id, date, setDate }) {
+export function DateInputs({ name, id, date, setDate }) {
   return (
     <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
       <div className="sm:col-span-3">
@@ -264,7 +268,7 @@ function DateInputs({ name, id, date, setDate }) {
   );
 }
 
-const StateSelect = ({ name, setFormData, formData, error}) => {
+export const StateSelect = ({ name, setFormData, formData, error}) => {
   // const [selectedState, setSelectedState] = useState("");
   const [districts, setDistricts] = useState([]);
 
@@ -295,7 +299,7 @@ const StateSelect = ({ name, setFormData, formData, error}) => {
         </Select>
 
         {/* District Dropdown */}
-        <Select value={formData.district} onValueChange={(value)=>setFormData({...formData, district:value})} disabled={districts.length === 0}>
+        <Select value={formData.district} onValueChange={(value)=>setFormData({...formData, district:value})} disabled={formData.district === ''}>
           <SelectTrigger className={`w-full py-5 shadow-none ${error && formData.district === "" && "border-red-500"}`}>
             <SelectValue placeholder="Select District" />
           </SelectTrigger>

@@ -15,11 +15,34 @@ export const studyCentreService = {
     );
     return response.data;
   },
+  getOneSTC: async (id) => {
+    const response = await axiosInstance.get(
+      API_ENDPOINTS.STUDY_CENTERS.GET_ONE,
+      {
+        params: {
+          id
+        },
+      }
+    );
+    return response.data;
+  },
   createStudyCenter: async (studyCenter) => {
     const response = await axiosInstance.post(
       API_ENDPOINTS.STUDY_CENTERS.CREATE,
       studyCenter
     )
     return response.data;
-  }
+  },
+  updateStudyCenter: async (studyCenter, id) => {
+    const response = await axiosInstance.put(
+      API_ENDPOINTS.STUDY_CENTERS.UPDATE,
+      studyCenter, 
+      {
+        params: {
+          id
+        },
+      }
+    )
+    return response.data;
+  },
 };

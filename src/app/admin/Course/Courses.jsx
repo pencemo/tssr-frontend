@@ -11,14 +11,26 @@ import Loader from "@/components/ui/loader";
 import { TableComp } from "@/components/admincomp/studycenComp/Table";
 import { useStudyCentre } from "@/hooks/tanstackHooks/useStudyCentre";
 import { useNavigate } from "react-router-dom";
+import AllCourse from "@/components/admincomp/courseComp/AllCourse";
+import Batches from "./Batches";
+import { AddCourse } from "@/components/admincomp/courseComp/AddCourse";
+import { useAllSubjects } from "@/hooks/tanstackHooks/useSubjects";
 
-export function StudyCentre() {
+export function Courses() {
   const [search, setSearch] = useState("");
+  const [selected, setSelected] = useState(null)
+  const {data:subjects}=useAllSubjects()
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [studyCenters, setStudyCenters] = useState([]);
+  const [course, setCourse] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    category: "",
+    duration: "",
+    subjects: [],
+  });
 
   // Debounce search input
   useEffect(() => {
@@ -32,13 +44,13 @@ export function StudyCentre() {
     };
   }, [search]);
 
-  const { data, error, isLoading } = useStudyCentre(currentPage, 20, debouncedSearch);
+  const { data, error, isLoading } = useStudyCentre();
 
   
 
   useEffect(() => {
     if (data && data.data) {
-      setStudyCenters(data.data);
+      setCourse(data.data);
     }
     if (data) {
       setTotalPage(data.totalPages);
@@ -53,7 +65,15 @@ export function StudyCentre() {
 
   return (
     <div className=" w-full h-full">
-      <div className="space-y-6 w-full h-full">
+      {selected ? 
+      <div>
+        <Batches
+        data={selected}
+        back={() => setSelected(null)}
+        />
+        
+        </div>
+      :<div className="space-y-6 w-full h-full">
         <div className="flex max-sm:flex-col gap-2 justify-between items-center">
           <Input
             value={search}
@@ -65,7 +85,12 @@ export function StudyCentre() {
             className="max-w-sm max-sm:max-w-full"
           />
           <div className="max-sm:w-full">
-            <Button className={'max-sm:w-full'} onClick={()=>navigate('/admin/studycentre/add')}>Add Study Centre</Button>
+            <AddCourse
+            formData={formData}
+            setFormData={setFormData}
+            subject={subjects?.data}
+            />
+            {/* <Button className={'max-sm:w-full'} onClick={()=>navigate('/admin/studycentre/add')}>Add Course</Button> */}
           </div>
         </div>
 
@@ -73,57 +98,22 @@ export function StudyCentre() {
           <div className="w-full h-full">
             <Loader />
           </div>
-        ) : studyCenters.length > 0 ? (
-          <div className="rounded-md border">
-            <TableComp
-              data={studyCenters}
+        ) : course.length > 0 ? (
+          <div className="">
+            <AllCourse
+              setSelected={setSelected}
+              data={['data', 'asdfj', 'asdfja', 'name of course']}
             />
-            <div className="flex items-center sm:justify-end justify-between space-x-2 py-4 px-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(1)}
-                disabled={currentPage === 1}
-              >
-                <ChevronsLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <span className="text-sm">
-                Page {currentPage} of {totalPage}
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPage))
-                }
-                disabled={currentPage === totalPage}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(totalPage)}
-                disabled={currentPage === totalPage}
-              >
-                <ChevronsRight className="h-4 w-4" />
-              </Button>
-            </div>
           </div>
         ) : (
           <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
             No data found
           </div>
         )}
-      </div>
+      </div>}
     </div>
   );
 }
+
+
+export default Courses

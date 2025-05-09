@@ -1,12 +1,14 @@
+"use client"
 
 import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-export function MultiSelect({ options, selected, onChange, placeholder = "Select items", className, error }) {
+export function SubjectSelect({ options, selected, onChange, placeholder = "Select items", className, error }) {
   const [open, setOpen] = React.useState(false)
   const [inputValue, setInputValue] = React.useState("")
 
@@ -26,34 +28,41 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div
+        <Button
+          variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn(
-            "flex min-h-10 w-full flex-wrap items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
-            className,
-            error && "border-red-500",
-          )}
+          className={cn("w-full justify-between font-normal h-auto min-h-10", error && "border-red-500", className)}
+          onClick={(e) => {
+            e.stopPropagation() // Prevent event bubbling
+            setOpen(!open)
+          }}
         >
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 items-center justify-start w-full">
             {selectedItems.length > 0 ? (
               <>
                 {selectedItems.map((item) => (
                   <Badge key={item._id} variant="secondary" className="mr-1 mb-1">
-                    {item.courseName}
+                    {item.name}
                   </Badge>
                 ))}
               </>
             ) : (
               <span className="text-muted-foreground">{placeholder}</span>
-              )}
+            )}
           </div>
-          <div className="flex shrink-0 opacity-50">
-            <ChevronsUpDown className="h-4 w-4" />
-          </div>
-        </div>
+          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50 ml-2" />
+        </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start">
+      <PopoverContent
+        className="w-full p-0"
+        align="start"
+        side="bottom"
+        sideOffset={4}
+        avoidCollisions={true}
+        // Higher z-index to ensure it appears above the Dialog
+        style={{ zIndex: 9999 }}
+      >
         <Command>
           <CommandInput placeholder="Search..." value={inputValue} onValueChange={setInputValue} />
           <CommandList>
@@ -62,7 +71,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
               {options.map((option) => (
                 <CommandItem
                   key={option._id}
-                  value={option.courseName}
+                  value={option.name}
                   onSelect={() => {
                     handleSelect(option._id)
                     setInputValue("")
@@ -71,14 +80,12 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
                   <div
                     className={cn(
                       "mr-2 flex size-[18px] items-center justify-center rounded-md border transition-all border-input",
-                      selected.includes(option._id)
-                        ? "bg-primary text-white"
-                        : "opacity-50 [&_svg]:invisible",
+                      selected.includes(option._id) ? "bg-primary text-white" : "opacity-50 [&_svg]:invisible",
                     )}
                   >
                     <Check className="text-white size-3.5" />
                   </div>
-                  <span>{option.courseName}</span>
+                  <span>{option.name}</span>
                 </CommandItem>
               ))}
             </CommandGroup>

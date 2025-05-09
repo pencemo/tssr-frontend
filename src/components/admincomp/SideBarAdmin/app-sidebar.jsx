@@ -1,8 +1,5 @@
 import * as React from "react"
 import {
-  BookOpen,
-  Bot,
-  Command,
   Frame,
   LifeBuoy,
   Map,
@@ -11,12 +8,12 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react"
-import logo from "../../assets/Logo.svg"
+import logo from "../../../assets/Logo.svg"
 
-import { NavMain } from "@/components/admincomp/nav-main"
-import { NavProjects } from "@/components/admincomp/nav-projects"
-import { NavSecondary } from "@/components/admincomp/nav-secondary"
-import { NavUser } from "@/components/admincomp/nav-user"
+import { NavMain } from "@/components/admincomp/SideBarAdmin/nav-main"
+import { NavProjects } from "@/components/admincomp/SideBarAdmin/nav-projects"
+import { NavSecondary } from "@/components/admincomp/SideBarAdmin/nav-secondary"
+import { NavUser } from "@/components/admincomp/SideBarAdmin/nav-user"
 import {
   Sidebar,
   SidebarContent,

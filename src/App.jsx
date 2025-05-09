@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 
 import LoginPage from "./app/Auth/login";
 import Home from "./page/Home";
@@ -7,7 +7,8 @@ import Page from "./app/admin/page";
 import Dashbord from "./app/admin/dashboard/dashbord";
 import { StudyCentre } from "./app/admin/study centre/studycentre";
 import NewStudy from "./app/admin/study centre/NewStudy";
-import StudyCenterView from "./app/admin/study centre/StudyCenterView";
+import EditStudyCen from "./app/admin/study centre/EditStudyCen";
+import Courses from "./app/admin/Course/Courses";
 
 function App() {
   return (
@@ -18,12 +19,15 @@ function App() {
 
         <Route path="/admin" element={<Page />} >
           <Route index element={<Dashbord />} />
-          <Route path="studycentre" element={<StudyCenterView />} >
+          <Route path="studycentre" element={<Outlet/>} >
             <Route index element={<StudyCentre />} />
             <Route path="req" element={<Dashbord />} />
             <Route path="add" element={<NewStudy />} />
+            <Route path="edit/:id" element={<EditStudyCen />} />
           </Route>
-          <Route path="course" element={<Dashbord />} />
+          <Route path="course" element={<Outlet/>} >
+            <Route index element={<Courses />} />
+          </Route>
           <Route path="students" element={<Dashbord />} />
           <Route path="hallticket" element={<Dashbord />} />
           <Route path="results" element={<Dashbord />} />

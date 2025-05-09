@@ -6,12 +6,14 @@ export const API_ENDPOINTS = {
   },
   STUDY_CENTERS: {
     VERIFIED: "/api/studycenter/getVerifiedStudyCenters",
-    GET_ONE: "/api/studycenter/:id",
+    GET_ONE: "/api/studycenter/getStudyCenterById",
     CREATE: "/api/studycenter/addStudyCenter",
-    UPDATE: "/api/studyCenters/:id",
+    UPDATE: "/api/studyCenter/updateStudyCenter",
     DELETE: "/api/studyCenters/:id",
   },
   COURSE: {
     GET_ALL: "/api/course/getallcourses",
-  }
+    GET_SUB: '/api/subject/getAllSubjects'
+  },
+
 };
