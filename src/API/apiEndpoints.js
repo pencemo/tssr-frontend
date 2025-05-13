@@ -12,8 +12,15 @@ export const API_ENDPOINTS = {
     DELETE: "/api/studyCenters/:id",
   },
   COURSE: {
-    GET_ALL: "/api/course/getallcourses",
-    GET_SUB: '/api/subject/getAllSubjects'
+    GET_ALL: "/api/course/getAllCourses",
+    ADD_COURSE: "/api/course/create",
+    EDIT: '/api/course/update',
+    GET_SUB: '/api/subject/getAllSubjects',
   },
+  BATCH:{
+    CREATE: "api/batch/createBatch",
+    UPDATE_STATUS: "api/batch/editAdmissionStatus",
+    GET_COURSE: "api/batch/getBatchesOfCourse",
+  }
 
 };

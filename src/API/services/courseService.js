@@ -20,10 +20,22 @@ export const courseService = {
 //     );
 //     return response.data;
 //   },
-  createStudyCenter: async (studyCenter) => {
+  createCourse: async (data) => {
     const response = await axiosInstance.post(
-      API_ENDPOINTS.STUDY_CENTERS.CREATE,
-      studyCenter
+      API_ENDPOINTS.COURSE.ADD_COURSE,
+      data
+    )
+    return response.data;
+  },
+  updateCourse: async (data, id) => {
+    const response = await axiosInstance.put(
+      API_ENDPOINTS.COURSE.EDIT,
+      data,
+      {
+        params: {
+          id: id,
+        }
+      }
     )
     return response.data;
   }

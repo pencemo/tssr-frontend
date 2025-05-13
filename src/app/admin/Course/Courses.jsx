@@ -15,16 +15,17 @@ import AllCourse from "@/components/admincomp/courseComp/AllCourse";
 import Batches from "./Batches";
 import { AddCourse } from "@/components/admincomp/courseComp/AddCourse";
 import { useAllSubjects } from "@/hooks/tanstackHooks/useSubjects";
+import { useAllCourse, useCreateCourse } from "@/hooks/tanstackHooks/useCourse";
+import { toast } from "sonner";
 
 export function Courses() {
   const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState(null)
-  const {data:subjects}=useAllSubjects()
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCoures, setSelectedCourse] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const { data: subjects } = useAllSubjects();
   const [course, setCourse] = useState([]);
-  const [totalPage, setTotalPage] = useState(0);
   const navigate = useNavigate();
+  const { mutate } = useCreateCourse();
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -32,88 +33,94 @@ export function Courses() {
     subjects: [],
   });
 
-  // Debounce search input
+  const { data, error, isLoading } = useAllCourse();
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(search);
-      setCurrentPage(1); // Reset to page 1 on new search
-    }, 1000); // delay in ms
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [search]);
-
-  const { data, error, isLoading } = useStudyCentre();
-
-  
-
-  useEffect(() => {
-    if (data && data.data) {
+    if (data) {
       setCourse(data.data);
     }
-    if (data) {
-      setTotalPage(data.totalPages);
-    }
+
   }, [data]);
 
+
+  const handleAddCourse = () => {
+    mutate(formData, {
+      onSuccess: (data) => {
+        if (data.success) {
+          toast("Course created", {
+            description: "Course created successfully",
+          });
+        } else {
+          toast("Somthing went wrong", {
+            description: data.message,
+          });
+        }
+      },
+    });
+  };
+
+
+
+  const filterData = course.filter((item) => {
+    return item.name.toLowerCase().includes(search.toLowerCase());
+  })
+
   if (error) {
-    return <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
-    Error to fetch data
-  </div>;
+    return (
+      <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
+        Error to fetch data
+      </div>
+    );
   }
 
   return (
     <div className=" w-full h-full">
-      {selected ? 
-      <div>
-        <Batches
-        data={selected}
-        back={() => setSelected(null)}
-        />
-        
+      {selected ? (
+        <div>
+          <Batches data={selected} subjects={subjects} setData={setSelected} back={() => setSelected(null)} />
         </div>
-      :<div className="space-y-6 w-full h-full">
-        <div className="flex max-sm:flex-col gap-2 justify-between items-center">
-          <Input
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value)
-            }}
-            type="text"
-            placeholder="Search users..."
-            className="max-w-sm max-sm:max-w-full"
-          />
-          <div className="max-sm:w-full">
+      ) : (
+        <div className="space-y-6 w-full h-full">
+          <div className="flex max-sm:flex-col gap-2 justify-between items-center">
+            <Input
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              type="text"
+              placeholder="Search users..."
+              className="max-w-sm max-sm:max-w-full"
+            />
+            <div className="max-sm:w-full flex flex-col">
             <AddCourse
-            formData={formData}
-            setFormData={setFormData}
-            subject={subjects?.data}
-            />
-            {/* <Button className={'max-sm:w-full'} onClick={()=>navigate('/admin/studycentre/add')}>Add Course</Button> */}
+                formData={formData}
+                setFormData={setFormData}
+                subject={subjects?.data}
+                submit={handleAddCourse}
+                type="add"
+                selected={selectedCoures}
+                setSelected={setSelectedCourse}
+              />
+              {/* <Button className={'max-sm:w-full'} onClick={()=>navigate('/admin/studycentre/add')}>Add Course</Button> */}
+            </div>
           </div>
-        </div>
 
-        {isLoading ? (
-          <div className="w-full h-full">
-            <Loader />
-          </div>
-        ) : course.length > 0 ? (
-          <div className="">
-            <AllCourse
-              setSelected={setSelected}
-              data={['data', 'asdfj', 'asdfja', 'name of course']}
-            />
-          </div>
-        ) : (
-          <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
-            No data found
-          </div>
-        )}
-      </div>}
+          {isLoading ? (
+            <div className="w-full h-full">
+              <Loader />
+            </div>
+          ) : course.length > 0 ? (
+            <div className="">
+              <AllCourse setSelected={setSelected} data={filterData} />
+            </div>
+          ) : (
+            <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
+              No data found
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-
-export default Courses
+export default Courses;

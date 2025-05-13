@@ -12,26 +12,40 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FormInputs } from "../studycenComp/CreateStudy"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SubjectSelect } from "./SubjectSelect"
 
-export function AddCourse({formData, setFormData, subject}) {
+export function AddCourse({formData, setFormData, subject, submit, type, selected, setSelected}) {
     const [isError, setError]=useState(false)
-    const [selected, setSelected] = useState([]);
+    // const [selected, setSelected] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]:e.target.value});
     }
+
+    useEffect(()=>{
+        setFormData({...formData, subjects:selected})
+    }, [selected])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if(formData.name === "" || formData.category === "" || formData.duration === "" || selected.length === 0){
+            setError(true)
+        }else{
+            await submit();
+            setIsDialogOpen(false)
+        }
+    }
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button >Add Course</Button>
+      <DialogTrigger className='' asChild>
+        <Button >{type === 'add' ? "Add " : "Edit"} Course</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>{type === 'add' ? "Add " : "Edit"} Course</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Submit the details of the course you want to {type === 'add' ? "add" : "edit"}.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -52,6 +66,7 @@ export function AddCourse({formData, setFormData, subject}) {
         formData={formData}
           error={isError && formData.category === ""}
           />
+          
           <FormInputs
           name="Duration"
           id="duration"
@@ -74,11 +89,12 @@ export function AddCourse({formData, setFormData, subject}) {
             placeholder="Select items"
             error={isError && selected.length === 0}
           />
+          
         </div>
       </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button onClick={handleSubmit} type="submit">{type === 'add' ? "Create course" : "Save changes"}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

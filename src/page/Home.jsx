@@ -6,7 +6,7 @@ function Home() {
     const navigate = useNavigate()
   return (
     <div className='w-full h-screen grid place-content-center'>
-      <Button onClick={()=>navigate('/login')}>Login</Button>
+      <Button onClick={()=>navigate('/admin')}>Login</Button>
     </div>
   )
 }

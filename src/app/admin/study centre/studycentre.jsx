@@ -6,11 +6,13 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  MoreVerticalIcon,
 } from "lucide-react";
 import Loader from "@/components/ui/loader";
 import { TableComp } from "@/components/admincomp/studycenComp/Table";
 import { useStudyCentre } from "@/hooks/tanstackHooks/useStudyCentre";
 import { useNavigate } from "react-router-dom";
+import { MenuButtons } from "@/components/admincomp/studycenComp/MenuButtons";
 
 export function StudyCentre() {
   const [search, setSearch] = useState("");
@@ -64,8 +66,9 @@ export function StudyCentre() {
             placeholder="Search users..."
             className="max-w-sm max-sm:max-w-full"
           />
-          <div className="max-sm:w-full">
-            <Button className={'max-sm:w-full'} onClick={()=>navigate('/admin/studycentre/add')}>Add Study Centre</Button>
+          <div className="max-sm:w-full flex items-center justify-center gap-2">
+            <Button className={''} size='' onClick={()=>navigate('/admin/studycentre/add')}>Add Study Centre</Button>
+            <MenuButtons/>
           </div>
         </div>
 
