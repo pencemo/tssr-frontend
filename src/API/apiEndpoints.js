@@ -10,17 +10,18 @@ export const API_ENDPOINTS = {
     CREATE: "/api/studycenter/addStudyCenter",
     UPDATE: "/api/studyCenter/updateStudyCenter",
     DELETE: "/api/studyCenters/:id",
+    GET_STUDYCENTER_FOR_EXCEL: "/api/studycenter/getAllStudyCenterForExcel",
   },
   COURSE: {
     GET_ALL: "/api/course/getAllCourses",
     ADD_COURSE: "/api/course/create",
-    EDIT: '/api/course/update',
-    GET_SUB: '/api/subject/getAllSubjects',
+    EDIT: "/api/course/update",
+    GET_SUB: "/api/subject/getAllSubjects",
   },
-  BATCH:{
+  BATCH: {
     CREATE: "api/batch/createBatch",
     UPDATE_STATUS: "api/batch/editAdmissionStatus",
     GET_COURSE: "api/batch/getBatchesOfCourse",
-  }
-
+  },
 };
+ 

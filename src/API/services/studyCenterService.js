@@ -20,7 +20,7 @@ export const studyCentreService = {
       API_ENDPOINTS.STUDY_CENTERS.GET_ONE,
       {
         params: {
-          id
+          id,
         },
       }
     );
@@ -30,19 +30,26 @@ export const studyCentreService = {
     const response = await axiosInstance.post(
       API_ENDPOINTS.STUDY_CENTERS.CREATE,
       studyCenter
-    )
+    );
     return response.data;
   },
   updateStudyCenter: async (studyCenter, id) => {
     const response = await axiosInstance.put(
       API_ENDPOINTS.STUDY_CENTERS.UPDATE,
-      studyCenter, 
+      studyCenter,
       {
         params: {
-          id
+          id,
         },
       }
-    )
+    );
+    return response.data;
+  },
+  getStudyCenterForExcel: async () => {
+    const response = await axiosInstance.get(
+      API_ENDPOINTS.STUDY_CENTERS.GET_STUDYCENTER_FOR_EXCEL
+    );
     return response.data;
   },
 };
+

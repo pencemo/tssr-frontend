@@ -8,7 +8,8 @@ import { useParams } from 'react-router-dom';
 function EditStudyCen() {
   const { id } = useParams();
   const {data, error, isLoading}=useOneStudiCenter(id)
-  const {data:course}=useAllCourse()
+  const { data: course } = useAllCourse()
+  
 
   if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader/></div>
   if (error) return <div className='w-full h-full flex justify-center items-center'>Error to get study centre data</div>

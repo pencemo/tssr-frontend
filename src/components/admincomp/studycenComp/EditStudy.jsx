@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
 export function EditStudy({ data, course }) {
+   
   const [isError, setError] = useState(false);
   const [date, setDate] = useState(null);
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export function EditStudy({ data, course }) {
     isActive: true,
     isApproved: true,
   });
-
+ 
   useEffect(() => {
     setFormData({ ...formData, renewalDate: date, courses: selected });
   }, [date, selected]);

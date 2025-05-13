@@ -53,3 +53,10 @@ return useMutation({
 // }
 
 
+export const useGetStudyCenterForExcel = () => {
+  return useQuery({
+    queryKey: ["studycentre"],
+    queryFn: () => studyCentreService.getStudyCenterForExcel(),
+    keepPreviousData: true,
+  });
+};
