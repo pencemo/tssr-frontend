@@ -76,7 +76,7 @@ export function Courses() {
     <div className=" w-full h-full">
       {selected ? (
         <div>
-          <Batches data={selected} subjects={subjects} setData={setSelected} back={() => setSelected(null)} />
+          <Batches data={selected} subjects={subjects} setData={setSelected}  />
         </div>
       ) : (
         <div className="space-y-6 w-full h-full">

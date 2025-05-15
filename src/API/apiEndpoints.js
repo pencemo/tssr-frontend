@@ -23,5 +23,12 @@ export const API_ENDPOINTS = {
     UPDATE_STATUS: "api/batch/editAdmissionStatus",
     GET_COURSE: "api/batch/getBatchesOfCourse",
   },
+  ADMISSION: {
+    OPEN_ADMISSION: "api/batch/editBatchDate",
+    OPENED_ADMISSION: "api/batch/admissionOpened",
+    CLOSED_ADMISSION: "api/batch/admissionNotOpen",
+    SHEDULED_ADMISSION: "api/batch/admissionScheduled",
+    CHANGE_ADMISSION_STATUS: "api/batch/toggleBatchStatus",
+  }
 };
  

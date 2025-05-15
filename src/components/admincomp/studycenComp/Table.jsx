@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
-import { DeleteAlert } from "./DeletAlert";
 import { EditStudy } from "./EditStudy";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";

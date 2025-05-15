@@ -1,6 +1,6 @@
 import * as React from "react"
 import {
-  Frame,
+  Settings ,
   LifeBuoy,
   Map,
   PieChart,
@@ -23,7 +23,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Book02Icon, Bookmark03Icon, GraduateMaleIcon, Home04Icon, Mortarboard02Icon, Ticket03Icon } from "hugeicons-react"
+import { Book02Icon, Bookmark03Icon, GraduateMaleIcon, Home04Icon, Mortarboard02Icon, Ticket03Icon, UserAdd01Icon } from "hugeicons-react"
 import { Link } from "react-router-dom"
 
 const data = {
@@ -61,6 +61,12 @@ const data = {
       title: "Courses",
       url: "course",
       icon: Mortarboard02Icon,
+      
+    },
+    {
+      title: "Admission",
+      url: "admission",
+      icon: UserAdd01Icon,
       
     },
     {
@@ -102,12 +108,12 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Settings",
       url: "#",
-      icon: Frame,
+      icon: Settings,
     },
     {
-      name: "Sales & Marketing",
+      name: "Report",
       url: "#",
       icon: PieChart,
     },
@@ -148,7 +154,7 @@ export function AppSidebar({
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

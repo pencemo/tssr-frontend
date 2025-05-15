@@ -14,8 +14,10 @@ import { Button } from "@/components/ui/button";
 import { useBatchesOfCourse, useUpdateStatusOfBatch } from "@/hooks/tanstackHooks/useBatch";
 import Loader from "@/components/ui/loader";
 import { Switch } from "@/components/ui/switch";
+import { CancelSquareIcon, CheckmarkSquare01Icon } from "hugeicons-react";
+import { format } from "date-fns";
 
-function Batches({ data, back, subjects,  }) {
+function Batches({ data, subjects, setData }) {
   const [selected, setSelected] = useState([]);
   const [batch, setBatch] = useState([])
   const { mutate } = useUpdateCourse();
@@ -39,6 +41,8 @@ function Batches({ data, back, subjects,  }) {
     }
   }, [batches])
 
+  const currentDate = batches?.currentDate
+
   const handleUpdateCourse = () => {
     // if(formData.name === '')
     mutate(
@@ -61,26 +65,7 @@ function Batches({ data, back, subjects,  }) {
       }
     );
   };
-  const handleUpdateStatus = (value, id) => {
-    // return console.log(value);
-    // if(formData.name === '')
-    updateStatusOfBatch(
-      { data: {isAdmissionStarted: value}, batchId: id },
-      {
-        onSuccess: (data) => {
-          if (data.success) {
-            toast("Batch updated", {
-              description: "Batch updated successfully",
-            });
-          } else {
-            toast("Somthing went wrong", {
-              description: data.message,
-            });
-          }
-        },
-      }
-    );
-  };
+  
 
   return (
     <div className="w-full border rounded-2xl overflow-hidden shadow-lg">
@@ -91,7 +76,7 @@ function Batches({ data, back, subjects,  }) {
           <p className="text-muted-foreground">{data.duration}</p>
         </div>
         <div className="flex flex-col gap-1">
-          <Button variant='outline' onClick={back}>Back</Button>
+          <Button variant='outline' onClick={()=>setData(null)}>Back</Button>
           <AddCourse
             formData={formData}
             setFormData={setFormData}
@@ -117,12 +102,40 @@ function Batches({ data, back, subjects,  }) {
             <div>Error to load batches</div>
           ) : (
             batch?.map((item, i) => {
+              const currentDate2 = new Date(currentDate);
+              const startDate = new Date(item.startDate);
+              const endDate = new Date(item.endDate);
+
+              // Strip time (set to 00:00:00 for accurate date-only comparison)
+              const currentDateOnly = new Date(
+                currentDate2.getFullYear(),
+                currentDate2.getMonth(),
+                currentDate2.getDate()
+              );
+
+              const startDateOnly = new Date(
+                startDate.getFullYear(),
+                startDate.getMonth(),
+                startDate.getDate()
+              );
+
+              const endDateOnly = new Date(
+                endDate.getFullYear(),
+                endDate.getMonth(),
+                endDate.getDate()
+              );
+
+              const isAdmissionOpened = 
+                item.isAdmissionStarted && 
+                (startDateOnly <= currentDateOnly && endDateOnly >= currentDateOnly);
+
+                const isSceduled = startDateOnly > currentDateOnly
               return (
                 <Card
                   onClick={() => setSelected(item)}
                   key={i}
                   className={`${
-                    item.isAdmissionStarted && "border-green-600 bg-green-50"
+                    isAdmissionOpened && "border-green-600 bg-green-50"
                   } shadow-none`}
                 >
                   <CardHeader className="relative">
@@ -132,18 +145,26 @@ function Batches({ data, back, subjects,  }) {
                   <CardContent>
                     <div className="flex flex-col ">
                       <h1 className="text-2xl font-medium">{item.month}</h1>
-                      <div className="w-full mt-2 border py-2 bg-white px-3 flex items-center justify-between rounded-xl">
+                      <div className="w-full mt-2 border-t pt-4 flex items-center justify-between">
                         <div>
-                          <h1 className="font-medium">Admission</h1>
+                          <h1 className="font-medium">Admission Status</h1>
                           <p className="text-sm text-muted-foreground">
                             Make it on to take admission
                           </p>
                         </div>
-                        <Switch
+                        {isAdmissionOpened? 
+                        <CheckmarkSquare01Icon className="text-green-600" />:
+                        isSceduled? 
+                        <div className="text-sm text-muted-foreground">
+                          Scheduled  {format(startDate, "dd/MM/yyyy")}, {format(endDate, "dd/MM/yyyy")}
+                        </div>:
+                        <CancelSquareIcon className="text-red-500" />
+                        }
+                        {/* <Switch
                           className={'cursor-pointer'}
                           checked={item.isAdmissionStarted}
                           onCheckedChange={(value) => handleUpdateStatus(value, item._id)}
-                        />
+                        /> */}
                       </div>
                     </div>
                   </CardContent>

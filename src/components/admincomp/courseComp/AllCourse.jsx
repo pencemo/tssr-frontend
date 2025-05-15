@@ -7,10 +7,10 @@ function AllCourse({data, setSelected}) {
     <div className='grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4'>
       {data.map((item, i) =>{
         return (
-          <Card onClick={() => setSelected(item)} key={i} className='hover:bg- zinc-50 overflow-hidden pt-0 hover:shadow-lg shadow-none cursor-pointer transition-all duration-300'>
-            <CardHeader className='relative bg-primary-foreground py-4 border-b'>
+          <Card onClick={() => setSelected(item)} key={i} className='border-primary bg-primary-foreground overflow-hidden pt-0 hover:shadow-lg shadow-none cursor-pointer transition-all duration-300'>
+            <CardHeader className='relative  py-4 border-b'>
               <CardTitle className=''>{item.name}</CardTitle>
-              <CardDescription>{item.category}</CardDescription>
+              <CardDescription>Category : <span className='text-black'>{item.category}</span></CardDescription>
               <div className='absolute top-4 right-5'>
                 <BookOpen02Icon size={20} strokeWidth={1} className='text-muted-foreground'/>
               </div>

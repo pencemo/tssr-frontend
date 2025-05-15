@@ -9,21 +9,15 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
   
-  export function DeleteAlert({deleteFn}) {
+  export function Alert({deleteFn, Head, discription, isOpen, setIsOpen}) {
     return (
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="outline" size='sm' >
-          Delete
-          </Button>
-        </AlertDialogTrigger>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>{Head || "Are you absolutely sure?"}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete car details from your account.
+              {discription || "This action cannot be undone. This will change your data from database."}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -40,7 +40,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
               <>
                 {selectedItems.map((item) => (
                   <Badge key={item._id} variant="secondary" className="mr-1 mb-1">
-                    {item.courseName}
+                    {item.name}
                   </Badge>
                 ))}
               </>
@@ -62,7 +62,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
               {options.map((option) => (
                 <CommandItem
                   key={option._id}
-                  value={option.courseName}
+                  value={option.name}
                   onSelect={() => {
                     handleSelect(option._id)
                     setInputValue("")
@@ -78,7 +78,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
                   >
                     <Check className="text-white size-3.5" />
                   </div>
-                  <span>{option.courseName}</span>
+                  <span>{option.name}</span>
                 </CommandItem>
               ))}
             </CommandGroup>

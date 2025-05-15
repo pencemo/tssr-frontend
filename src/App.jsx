@@ -9,6 +9,7 @@ import { StudyCentre } from "./app/admin/study centre/studycentre";
 import NewStudy from "./app/admin/study centre/NewStudy";
 import EditStudyCen from "./app/admin/study centre/EditStudyCen";
 import Courses from "./app/admin/Course/Courses";
+import AdmissionSection from "./app/admin/Admission/AdmissionSection";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="course" element={<Outlet/>} >
             <Route index element={<Courses />} />
           </Route>
+          <Route path="admission" element={<AdmissionSection />} />
           <Route path="students" element={<Dashbord />} />
           <Route path="hallticket" element={<Dashbord />} />
           <Route path="results" element={<Dashbord />} />

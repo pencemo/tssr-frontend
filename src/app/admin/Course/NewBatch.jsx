@@ -87,7 +87,7 @@ export function NewBatch({ name, id }) {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectLabel>Months</SelectLabel>
                   {monthNames.map((month) => {
                     return <SelectItem value={month}>{month}</SelectItem>;
                   })}
